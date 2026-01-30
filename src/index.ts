@@ -32,4 +32,8 @@ export class Random {
 
     return Random.fromArray(source);
   }
+
+  static uuid() {
+    return crypto.randomUUID();
+  }
 }
