@@ -1,0 +1,32 @@
+{
+  "name": "@kottetall/random",
+  "version": "0.0.1",
+  "description": "",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "clean": "del-cli ./lib",
+    "build": "npm run clean && tsc -p ./tsconfig.json",
+    "prepack": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kottetall/random.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/kottetall/random/issues"
+  },
+  "homepage": "https://github.com/kottetall/random#readme",
+  "files": [
+    "lib/**/*"
+  ],
+  "devDependencies": {
+    "del-cli": "^7.0.0",
+    "typescript": "^5.9.3"
+  }
+}
