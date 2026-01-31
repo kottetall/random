@@ -1,6 +1,6 @@
 {
   "name": "@kottetall/random",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
@@ -14,7 +14,20 @@
     "type": "git",
     "url": "git+https://github.com/kottetall/random.git"
   },
-  "keywords": [],
+  "keywords": [
+    "random",
+    "random-utils",
+    "utility",
+    "utils",
+    "helpers",
+    "javascript",
+    "node",
+    "array",
+    "object",
+    "picker",
+    "random-picker",
+    "random-value"
+  ],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
