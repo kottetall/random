@@ -1,6 +1,6 @@
 {
   "name": "@kottetall/random",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
@@ -22,13 +22,14 @@
     "helpers",
     "javascript",
     "node",
-    "array",
-    "object",
     "picker",
     "random-picker",
     "random-value",
     "test data",
-    "mock data"
+    "mock data",
+    "mock",
+    "random data generation",
+    "random name"
   ],
   "author": "",
   "license": "ISC",

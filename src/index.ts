@@ -6,6 +6,8 @@ import {
   booleanString,
   casing,
   falsyValues,
+  httpCodes,
+  httpCodesDictionary,
   truthyValues,
 } from "./constants/random.constant";
 
@@ -16,6 +18,8 @@ import {
   gender,
   lastname,
 } from "./constants/name.constant";
+
+import { millis } from "./constants/time.constant";
 
 import { BooleanString, Casing } from "./types/random.type";
 import { ObjectValues, ObjectValuesArray } from "./types/utils.type";
@@ -45,9 +49,7 @@ export class Random {
    */
   static booleanString(booleanCasing?: Casing) {
     if (!booleanCasing) booleanCasing = casing.LOWER;
-    const result = Random.boolean()
-      ? booleanString.TRUE_LOWERCASE
-      : booleanString.FALSE_UPPERCASE;
+    const result = Random.boolean() ? booleanString.TRUE : booleanString.FALSE;
     return booleanCasing === casing.LOWER ? result : result.toUpperCase();
   }
 
@@ -201,5 +203,48 @@ export class Random {
    */
   static fullName(nameGender?: Gender) {
     return `${Random.firstName(nameGender)} ${Random.lastName()}`;
+  }
+
+  /**
+   * Get a http code i.e 200, 400
+   * @returns
+   */
+  static httpStatusCode() {
+    return Random.fromArray([...httpCodes]);
+  }
+
+  /**
+   * Get a http status i.e Created, Accepted
+   * @returns
+   */
+  static httpStatus() {
+    const randomStatusCode = Random.httpStatusCode();
+    return httpCodesDictionary[randomStatusCode];
+  }
+
+  /**
+   * Returns a specific time as a localeTimeString
+   * @returns
+   */
+  static time() {
+    const randomMillis = Random.intBetween(0, millis.DAY);
+    return new Date(randomMillis).toLocaleTimeString();
+  }
+
+  /**
+   * Returns a date (and time) within the given range
+   * @param min - first date in range
+   * @param max - last date in range
+   * @returns
+   */
+  static date(min: Date, max: Date) {
+    if (max.getTime() < min.getTime()) {
+      const oldMin = min;
+      min = max;
+      max = oldMin;
+    }
+
+    const randomDate = Random.intBetween(min.getTime(), max.getTime());
+    return new Date(randomDate);
   }
 }
