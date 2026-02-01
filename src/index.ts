@@ -9,8 +9,17 @@ import {
   truthyValues,
 } from "./constants/random.constant";
 
+import {
+  firstNameFemale,
+  firstNameMale,
+  firstNameNeutral,
+  gender,
+  lastname,
+} from "./constants/name.constant";
+
 import { BooleanString, Casing } from "./types/random.type";
 import { ObjectValues, ObjectValuesArray } from "./types/utils.type";
+import { Gender } from "./types/name.type";
 
 export class Random {
   static intBetween(min: number, max: number) {
@@ -110,5 +119,87 @@ export class Random {
    */
   static uuid() {
     return crypto.randomUUID();
+  }
+
+  /**
+   * Has a n% chance of throwing a error
+   * @param probabilityOfError - The probability of a error beeing thrown - i.e 0.2 = 20% chance
+   * @param errorMessage - The errormessage to be used instead of the default one
+   * @param callback - The callback that should be run if there's no error
+   * @returns
+   */
+  static throwError(
+    probabilityOfError: number,
+    errorMessage?: string,
+    callback?: Function,
+  ): void {
+    if (probabilityOfError < 0 || probabilityOfError > 1) {
+      // Trying a warning instead of throwing a error since it would probably
+      // be masked by the actual intent - throwing a error sometimes
+      console.warn("The probability needs to be between 0 and 1");
+      return;
+    }
+
+    if (Math.random() < probabilityOfError) {
+      errorMessage ??= "This is a randomly triggered error";
+      throw new Error(errorMessage);
+    }
+
+    if (callback) {
+      callback();
+    }
+  }
+
+  /**
+   *
+   * @param minMs - Minimum milliseconds to delay
+   * @param maxMs - Maximum milliseconds to delay
+   * @param value - Optional return value
+   * @returns
+   */
+  static async delay<T>(minMs: number, maxMs: number, value?: T) {
+    return new Promise<T | undefined>((resolve, reject) => {
+      const delayInMs = Random.intBetween(minMs, maxMs);
+      setTimeout(() => {
+        resolve(value);
+      }, delayInMs);
+    });
+  }
+
+  /**
+   * Returns a name
+   * @param nameGender - Only male, female or unisex. If omitted, the name could be either one
+   * @returns
+   */
+  static firstName(nameGender?: Gender) {
+    const namePool: string[] = [];
+    if (!nameGender || nameGender === gender.UNISEX) {
+      namePool.push(...firstNameNeutral);
+    }
+    if (!nameGender || nameGender === gender.MALE) {
+      namePool.push(...firstNameMale);
+    }
+    if (!nameGender || nameGender === gender.FEMALE) {
+      namePool.push(...firstNameFemale);
+    }
+
+    return Random.fromArray(namePool);
+  }
+
+  /**
+   * Gives a surname/last name
+   * @returns
+   */
+  static lastName() {
+    return Random.fromArray([...lastname]);
+  }
+
+  /**
+   * Gives a full name - first and last name
+   * @param nameGender
+   * @returns
+   */
+  static fullName(nameGender?: Gender) {
+    return `${Random.firstName(nameGender)} ${Random.lastName()}`;
   }
 }

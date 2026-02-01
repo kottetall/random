@@ -6,8 +6,8 @@ This package was originally created for personal use in my own projects, but it 
 
 ## Features
 
-- Get a random value from an array
-- Get a random value from an object
+- Get a random value from an array / object
+- Get a random name - first, last, full
 - Get a random letter
 - Get a random truthy/falsy value
 - And more...
@@ -22,6 +22,17 @@ npm install @kottetall/random
 ```
 
 ## Usage
+
+### Random names
+
+```js
+import { Random } from "@kottetall/random";
+
+console.log(Random.firstName()); // Jack
+console.log(Random.firstName("female")); // Sofia
+console.log(Random.lastName()); // White
+console.log(Random.fullName()); // Jack Hassan
+```
 
 ### Random value from an array
 
