@@ -42,7 +42,7 @@ import { Random } from "@kottetall/random";
 const items = ["apple", "banana", "orange"];
 const result = Random.fromArray(items);
 
-console.log(result);
+console.log(result); // "banana"
 ```
 
 ### Random value from an object
@@ -58,7 +58,7 @@ const obj = {
 
 const result = Random.fromObject(obj);
 
-console.log(result);
+console.log(result); // 3
 ```
 
 ## Why this package?
