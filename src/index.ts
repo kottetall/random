@@ -191,6 +191,23 @@ export class Random {
     return `${sentenceBase.trim()}.`;
   }
 
+  static paragraph(minSentence?: number, maxSentence?: number) {
+    minSentence ??= 6;
+    maxSentence ??= 15;
+    if (maxSentence < minSentence) {
+      const tmpMinSentence = minSentence;
+      minSentence = maxSentence;
+      maxSentence = tmpMinSentence;
+    }
+
+    const nOfSentences = Random.intBetween(minSentence, maxSentence);
+    let result = "";
+    for (let i = 0; i < nOfSentences; i++) {
+      result = `${result} ${Random.sentence()}`;
+    }
+    return result.trim();
+  }
+
   /**
    * A wrapper for crypto.randomUUID
    * @returns
@@ -378,6 +395,33 @@ export class Random {
         } else {
           result += Random.letter(casing.LOWER, charMin, charMax);
         }
+      } else {
+        const pool: string[] = [];
+        const num = /\d/.test(charMin) ? charMin : charMax;
+        const str = !/\d/.test(charMin) ? charMin : charMax;
+
+        for (let i = Number.parseInt(num, 10); i <= 9; i++) {
+          pool.push(`${i}`);
+        }
+
+        let startIndex = alphabetLowercase.indexOf(
+          str as (typeof alphabetLowercase)[number],
+        );
+
+        if (startIndex < 0) {
+          startIndex = alphabetUppercase.indexOf(
+            str as (typeof alphabetUppercase)[number],
+          );
+        }
+
+        let strSlice: string[] = alphabetLowercase.slice(0, startIndex);
+
+        if (/[A-Z]/.test(str)) {
+          strSlice = strSlice.map((letter) => letter.toUpperCase());
+        }
+
+        pool.push(...strSlice);
+        result += Random.fromArray(pool);
       }
     }
 

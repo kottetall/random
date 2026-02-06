@@ -70,8 +70,14 @@ describe("Random", () => {
 
   describe("sentence", () => {
     test("Only returns expected values", () => {
-      console.log(Random.sentence());
       expect(/^[A-z\.\s]+$/gi.test(Random.sentence())).toBe(true);
+    });
+  });
+
+  describe("paragraph", () => {
+    test("Only returns expected values", () => {
+      console.log(Random.paragraph());
+      expect(/^[A-z\.\s]+$/gi.test(Random.paragraph())).toBe(true);
     });
   });
 
@@ -94,6 +100,8 @@ describe("Random", () => {
         "fe",
       ]);
       expect(Random.arbitraryString("ggg", "ggg")).toBeOneOf(["ggg"]);
+      expect(Random.arbitraryString("9", "A")).toBeOneOf(["A", "9"]);
+      expect(Random.arbitraryString("8", "b")).toBeOneOf(["8", "9", "a", "b"]);
     });
   });
 });
