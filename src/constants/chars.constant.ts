@@ -25,9 +25,6 @@ export const alphabetLowercase = [
   "x",
   "y",
   "z",
-  "å",
-  "ä",
-  "ö",
 ] as const;
 
 export const alphabetUppercase = alphabetLowercase.map((letter) =>

@@ -34,6 +34,18 @@ console.log(Random.lastName()); // White
 console.log(Random.fullName()); // Jack Hassan
 ```
 
+### Random string from stringpattern
+
+```js
+import { Random } from "@kottetall/random";
+
+const stringA = "a2";
+const stringB = "b1";
+const result = Random.arbitraryString(stringA, stringB);
+
+console.log(result); // "a1" | "b1" | "a2" | "b2"
+```
+
 ### Random value from an array
 
 ```js

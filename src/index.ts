@@ -103,13 +103,36 @@ export class Random {
    * @param letterCasing
    * @returns
    */
-  static letter(letterCasing?: Casing) {
+  static letter(letterCasing?: Casing, min?: string, max?: string) {
+    const pool: string[] = [...alphabetLowercase];
+
+    // TODO: Refactor min/max logic
+    let minIndex = 0;
+    if (min) {
+      minIndex = pool.indexOf(min.toLowerCase());
+    }
+
+    let maxIndex = pool.length - 1;
+    if (max) {
+      maxIndex = pool.indexOf(max.toLowerCase());
+    }
+
+    if (minIndex > maxIndex) {
+      const tmpMin = minIndex;
+      minIndex = maxIndex;
+      maxIndex = tmpMin;
+    }
+
     const source: string[] = [];
     if (letterCasing === casing.LOWER || !letterCasing) {
-      source.push(...alphabetLowercase);
+      const letters = pool.slice(minIndex, maxIndex + 1);
+      source.push(...letters);
     }
     if (letterCasing === casing.UPPER || !letterCasing) {
-      source.push(...alphabetUppercase);
+      const letters = pool
+        .slice(minIndex, maxIndex)
+        .map((letter) => letter.toUpperCase());
+      source.push(...letters);
     }
 
     return Random.fromArray(source);
@@ -246,5 +269,55 @@ export class Random {
 
     const randomDate = Random.intBetween(min.getTime(), max.getTime());
     return new Date(randomDate);
+  }
+
+  /**
+   * Get a random string based on the strings provided. Min and max needs to have the same length since
+   * the method loops through each character and uses them as the range to randomly pick from -
+   * min="ac" max="cd" -> "ac" | "bc" | "cc" | "ad" | "bd" | "cd"
+   * @param min
+   * @param max
+   * @returns
+   */
+  static arbitraryString(min: string, max: string) {
+    if (min.length !== max.length) {
+      throw new Error("min and max need to be the same character length");
+    }
+
+    const validChars = new RegExp(/^[\dA-z]+$/);
+    if (!validChars.test(min) || !validChars.test(max)) {
+      throw new Error(
+        "Only numbers and letters - A to z - are allowed right now",
+      );
+    }
+
+    let result = "";
+    for (let i = 0; i < min.length; i++) {
+      const charMin = min[i];
+      const charMax = max[i];
+
+      // TODO: Refactor
+      const bothIsNumber = /\d/.test(charMin) && /\d/.test(charMax);
+      const bothIsAlphabet = /[A-z]/.test(charMin) && /[A-z]/.test(charMax);
+
+      // TODO: Add symbol handling
+      if (bothIsNumber) {
+        const numberMin = Number.parseInt(charMin, 10);
+        const numberMax = Number.parseInt(charMax, 10);
+        result += Random.intBetween(numberMin, numberMax);
+      } else if (bothIsAlphabet) {
+        const bothUppercase = /[A]/.test(charMin) && /[A]/.test(charMax);
+        const oneUppercase = /[A]/.test(charMin) || /[A]/.test(charMax);
+        if (bothUppercase) {
+          result += Random.letter(casing.UPPER, charMin, charMax);
+        } else if (oneUppercase) {
+          result += Random.letter();
+        } else {
+          result += Random.letter(casing.LOWER, charMin, charMax);
+        }
+      }
+    }
+
+    return result;
   }
 }

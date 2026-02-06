@@ -1,5 +1,10 @@
 import { describe, expect, test } from "vitest";
 import { Random } from "../src";
+import {
+  alphabetLowercase,
+  alphabetUppercase,
+} from "../src/constants/chars.constant";
+import { casing } from "../src/constants/random.constant";
 
 describe("Random", () => {
   describe("intBetween", () => {
@@ -17,6 +22,59 @@ describe("Random", () => {
 
     test("Handles flipped params", () => {
       expect(Random.intBetween(3, 1)).toBeOneOf([1, 2, 3]);
+    });
+  });
+
+  describe("letter", () => {
+    test("Only returns expected values", () => {
+      expect(Random.letter()).toBeOneOf([
+        ...alphabetLowercase,
+        ...alphabetUppercase,
+      ]);
+      expect(Random.letter(casing.LOWER)).toBeOneOf([...alphabetLowercase]);
+      expect(Random.letter(casing.UPPER)).toBeOneOf([...alphabetUppercase]);
+      expect(Random.letter(casing.LOWER, "a", "c")).toBeOneOf(["a", "b", "c"]);
+      expect(Random.letter(casing.LOWER, "c", "a")).toBeOneOf(["a", "b", "c"]);
+      expect(Random.letter(undefined, "a", "c")).toBeOneOf([
+        "a",
+        "b",
+        "c",
+        "A",
+        "B",
+        "C",
+      ]);
+      expect(Random.letter(casing.LOWER, undefined, "c")).toBeOneOf([
+        "a",
+        "b",
+        "c",
+      ]);
+      expect(Random.letter(casing.LOWER, "x", undefined)).toBeOneOf([
+        "x",
+        "y",
+        "z",
+      ]);
+    });
+  });
+
+  describe("arbitraryString", () => {
+    test("Only returns expected values", () => {
+      expect(Random.arbitraryString("11", "13")).toBeOneOf(["11", "12", "13"]);
+      expect(Random.arbitraryString("11", "31")).toBeOneOf(["11", "21", "31"]);
+      expect(Random.arbitraryString("a2", "b1")).toBeOneOf([
+        "a1",
+        "b1",
+        "a2",
+        "b2",
+      ]);
+      expect(Random.arbitraryString("ab", "cb")).toBeOneOf(["ab", "bb", "cb"]);
+      expect(Random.arbitraryString("cb", "ab")).toBeOneOf(["ab", "bb", "cb"]);
+      expect(Random.arbitraryString("ef", "fe")).toBeOneOf([
+        "ee",
+        "ff",
+        "ef",
+        "fe",
+      ]);
+      expect(Random.arbitraryString("ggg", "ggg")).toBeOneOf(["ggg"]);
     });
   });
 });
