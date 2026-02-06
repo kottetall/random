@@ -36,6 +36,12 @@ console.log(Random.fullName()); // Jack Hassan
 
 ### Random string from stringpattern
 
+Generates a random string using two strings as per-character boundaries.
+
+Instead of choosing one of the input strings, the method treats them as limits for each character position. For every index, it determines the range between the corresponding characters in the two strings and randomly selects a character within that range.
+
+Each character in the resulting string is generated independently, which allows the method to produce combinations that do not exist in either of the original strings.
+
 ```js
 import { Random } from "@kottetall/random";
 

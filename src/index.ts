@@ -99,43 +99,96 @@ export class Random {
   }
 
   /**
-   * Returns a letter, can be either lowercase or uppercase unless specified
-   * @param letterCasing
-   * @returns
+   * Generates a random letter within a specified alphabetical range.
+   *
+   * The method allows you to define the first and last letters of the range,
+   * as well as whether the generated letter should be uppercase or lowercase.
+   * The selection is inclusive, meaning both boundary letters can appear in the result.
+   *
+   * @param letterCasing - "upper" returns an uppercase letter; "lower" returns a lowercase letter. undefined/ommitted can give either
+   * @param start - The first letter in the range.
+   * @param end - The last letter in the range.
+   * @returns A randomly generated letter within the specified range.
+   *
+   * @example
+   * Random.letter("lower", "a", "f");
+   * // Possible outputs: "a", "b", "c", "d", "e", "f"
+   *
+   * @example
+   * Random.letter("upper", "A", "Z");
+   * // Possible outputs: "A" ... "Z"
    */
-  static letter(letterCasing?: Casing, min?: string, max?: string) {
+  static letter(letterCasing?: Casing, start?: string, end?: string) {
     const pool: string[] = [...alphabetLowercase];
 
     // TODO: Refactor min/max logic
-    let minIndex = 0;
-    if (min) {
-      minIndex = pool.indexOf(min.toLowerCase());
+    let startIndex = 0;
+    if (start) {
+      startIndex = pool.indexOf(start.toLowerCase());
     }
 
-    let maxIndex = pool.length - 1;
-    if (max) {
-      maxIndex = pool.indexOf(max.toLowerCase());
+    let endIndex = pool.length - 1;
+    if (end) {
+      endIndex = pool.indexOf(end.toLowerCase());
     }
 
-    if (minIndex > maxIndex) {
-      const tmpMin = minIndex;
-      minIndex = maxIndex;
-      maxIndex = tmpMin;
+    if (startIndex > endIndex) {
+      const tmpStart = startIndex;
+      startIndex = endIndex;
+      endIndex = tmpStart;
     }
 
     const source: string[] = [];
     if (letterCasing === casing.LOWER || !letterCasing) {
-      const letters = pool.slice(minIndex, maxIndex + 1);
+      const letters = pool.slice(startIndex, endIndex + 1);
       source.push(...letters);
     }
     if (letterCasing === casing.UPPER || !letterCasing) {
       const letters = pool
-        .slice(minIndex, maxIndex)
+        .slice(startIndex, endIndex)
         .map((letter) => letter.toUpperCase());
       source.push(...letters);
     }
 
     return Random.fromArray(source);
+  }
+
+  static word(minLength?: number, maxLength?: number) {
+    minLength ??= 2;
+    maxLength ??= 6;
+    if (maxLength < minLength) {
+      const tmpMinLength = minLength;
+      minLength = maxLength;
+      maxLength = tmpMinLength;
+    }
+
+    const nLetters = Random.intBetween(minLength, maxLength);
+
+    let wordResult = "";
+    for (let i = 0; i < nLetters; i++) {
+      wordResult += Random.letter(casing.LOWER);
+    }
+
+    return wordResult;
+  }
+
+  static sentence(minWords?: number, maxWords?: number) {
+    minWords ??= 2;
+    maxWords ??= 6;
+    if (maxWords < minWords) {
+      const tmpMinWords = minWords;
+      minWords = maxWords;
+      maxWords = tmpMinWords;
+    }
+
+    const nOfWords = Random.intBetween(minWords, maxWords);
+
+    let sentenceBase = "";
+    for (let i = 0; i < nOfWords; i++) {
+      sentenceBase = `${sentenceBase} ${Random.word()}`;
+    }
+
+    return `${sentenceBase.trim()}.`;
   }
 
   /**
@@ -272,12 +325,22 @@ export class Random {
   }
 
   /**
-   * Get a random string based on the strings provided. Min and max needs to have the same length since
-   * the method loops through each character and uses them as the range to randomly pick from -
-   * min="ac" max="cd" -> "ac" | "bc" | "cc" | "ad" | "bd" | "cd"
-   * @param min
-   * @param max
-   * @returns
+   * Generates a random string by interpreting two input strings as per-character bounds.
+   *
+   * For each character position, the method computes the inclusive range between the
+   * corresponding characters of `min` and `max`, then randomly selects a character
+   * within that range. Each character is generated independently.
+   *
+   * Note: The method does not choose between the two input strings; instead, it
+   * produces new strings by combining characters from the defined ranges.
+   *
+   * @param min - The lower bound string (per-character).
+   * @param max - The upper bound string (per-character).
+   * @returns A randomly generated string within the defined character ranges.
+   *
+   * @example
+   * Random.arbitraryString("a2", "b1");
+   * // Possible outputs: "a1", "b1", "a2", "b2"
    */
   static arbitraryString(min: string, max: string) {
     if (min.length !== max.length) {

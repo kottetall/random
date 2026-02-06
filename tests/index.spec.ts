@@ -56,6 +56,25 @@ describe("Random", () => {
     });
   });
 
+  describe("word", () => {
+    test("Only returns expected values", () => {
+      expect(/^[A-z]+$/gi.test(Random.word())).toBe(true);
+      expect(/^[A-z]+$/gi.test(Random.word())).toBe(true);
+      expect(/^[A-z]+$/gi.test(Random.word())).toBe(true);
+      expect(Random.word(2, 3).length).toBeOneOf([2, 3]);
+      expect(Random.word(2, 3).length).toBeOneOf([2, 3]);
+      expect(Random.word(2, 3).length).toBeOneOf([2, 3]);
+      expect(Random.word(3, 2).length).toBeOneOf([2, 3]);
+    });
+  });
+
+  describe("sentence", () => {
+    test("Only returns expected values", () => {
+      console.log(Random.sentence());
+      expect(/^[A-z\.\s]+$/gi.test(Random.sentence())).toBe(true);
+    });
+  });
+
   describe("arbitraryString", () => {
     test("Only returns expected values", () => {
       expect(Random.arbitraryString("11", "13")).toBeOneOf(["11", "12", "13"]);
