@@ -19,7 +19,7 @@ import {
   lastname,
 } from "./constants/name.constant";
 
-import { millis } from "./constants/time.constant";
+import { millis, weekDays } from "./constants/time.constant";
 
 import { BooleanString, Casing } from "./types/random.type";
 import { ObjectValues, ObjectValuesArray } from "./types/utils.type";
@@ -339,6 +339,10 @@ export class Random {
 
     const randomDate = Random.intBetween(min.getTime(), max.getTime());
     return new Date(randomDate);
+  }
+
+  static day() {
+    return Random.fromObject(weekDays);
   }
 
   /**
