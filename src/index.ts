@@ -21,7 +21,7 @@ import {
 
 import { millis, weekDays } from "./constants/time.constant";
 
-import { BooleanString, Casing } from "./types/random.type";
+import { Casing } from "./types/random.type";
 import { ObjectValues, ObjectValuesArray } from "./types/utils.type";
 import { Gender } from "./types/name.type";
 
@@ -363,7 +363,7 @@ export class Random {
    * Random.arbitraryString("a2", "b1");
    * // Possible outputs: "a1", "b1", "a2", "b2"
    */
-  static arbitraryString(min: string, max: string) {
+  static stringpattern(min: string, max: string) {
     if (min.length !== max.length) {
       throw new Error("min and max need to be the same character length");
     }

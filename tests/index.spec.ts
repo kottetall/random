@@ -87,27 +87,27 @@ describe("Random", () => {
     });
   });
 
-  describe("arbitraryString", () => {
+  describe("stringpattern", () => {
     test("Only returns expected values", () => {
-      expect(Random.arbitraryString("11", "13")).toBeOneOf(["11", "12", "13"]);
-      expect(Random.arbitraryString("11", "31")).toBeOneOf(["11", "21", "31"]);
-      expect(Random.arbitraryString("a2", "b1")).toBeOneOf([
+      expect(Random.stringpattern("11", "13")).toBeOneOf(["11", "12", "13"]);
+      expect(Random.stringpattern("11", "31")).toBeOneOf(["11", "21", "31"]);
+      expect(Random.stringpattern("a2", "b1")).toBeOneOf([
         "a1",
         "b1",
         "a2",
         "b2",
       ]);
-      expect(Random.arbitraryString("ab", "cb")).toBeOneOf(["ab", "bb", "cb"]);
-      expect(Random.arbitraryString("cb", "ab")).toBeOneOf(["ab", "bb", "cb"]);
-      expect(Random.arbitraryString("ef", "fe")).toBeOneOf([
+      expect(Random.stringpattern("ab", "cb")).toBeOneOf(["ab", "bb", "cb"]);
+      expect(Random.stringpattern("cb", "ab")).toBeOneOf(["ab", "bb", "cb"]);
+      expect(Random.stringpattern("ef", "fe")).toBeOneOf([
         "ee",
         "ff",
         "ef",
         "fe",
       ]);
-      expect(Random.arbitraryString("ggg", "ggg")).toBeOneOf(["ggg"]);
-      expect(Random.arbitraryString("9", "A")).toBeOneOf(["A", "9"]);
-      expect(Random.arbitraryString("8", "b")).toBeOneOf(["8", "9", "a", "b"]);
+      expect(Random.stringpattern("ggg", "ggg")).toBeOneOf(["ggg"]);
+      expect(Random.stringpattern("9", "A")).toBeOneOf(["A", "9"]);
+      expect(Random.stringpattern("8", "b")).toBeOneOf(["8", "9", "a", "b"]);
     });
   });
 });
