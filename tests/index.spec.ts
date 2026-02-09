@@ -5,6 +5,7 @@ import {
   alphabetUppercase,
 } from "../src/constants/chars.constant";
 import { casing } from "../src/constants/random.constant";
+import { weekDays } from "../src/constants/time.constant";
 
 describe("Random", () => {
   describe("intBetween", () => {
@@ -22,6 +23,12 @@ describe("Random", () => {
 
     test("Handles flipped params", () => {
       expect(Random.intBetween(3, 1)).toBeOneOf([1, 2, 3]);
+    });
+  });
+
+  describe("day", () => {
+    test("Only returns expected values", () => {
+      expect(Random.day()).toBeOneOf(Object.values(weekDays));
     });
   });
 
@@ -76,7 +83,6 @@ describe("Random", () => {
 
   describe("paragraph", () => {
     test("Only returns expected values", () => {
-      console.log(Random.paragraph());
       expect(/^[A-z\.\s]+$/gi.test(Random.paragraph())).toBe(true);
     });
   });
