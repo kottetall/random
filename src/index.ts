@@ -21,18 +21,16 @@ import {
 
 import { millis, weekDays } from "./constants/time.constant";
 
+import { normalizeMinMax } from "./utils/helper.util";
+
 import { Casing } from "./types/random.type";
 import { ObjectValues, ObjectValuesArray } from "./types/utils.type";
 import { Gender } from "./types/name.type";
 
 export class Random {
-  static intBetween(min: number, max: number) {
+  static intBetween(minInt: number, maxInt: number) {
     // From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
-    if (max < min) {
-      const oldMin = min;
-      min = max;
-      max = oldMin;
-    }
+    const { min, max } = normalizeMinMax(minInt, maxInt);
     const minCeiled = Math.ceil(min);
     const maxFloored = Math.floor(max);
     return Math.floor(Math.random() * (maxFloored - minCeiled + 1) + minCeiled);
@@ -132,11 +130,9 @@ export class Random {
       endIndex = pool.indexOf(end.toLowerCase());
     }
 
-    if (startIndex > endIndex) {
-      const tmpStart = startIndex;
-      startIndex = endIndex;
-      endIndex = tmpStart;
-    }
+    const normalizedIndexes = normalizeMinMax(startIndex, endIndex);
+    startIndex = normalizedIndexes.min;
+    endIndex = normalizedIndexes.max;
 
     const source: string[] = [];
     if (letterCasing === casing.LOWER || !letterCasing) {
@@ -156,11 +152,10 @@ export class Random {
   static word(minLength?: number, maxLength?: number) {
     minLength ??= 2;
     maxLength ??= 6;
-    if (maxLength < minLength) {
-      const tmpMinLength = minLength;
-      minLength = maxLength;
-      maxLength = tmpMinLength;
-    }
+
+    const normalizedLengths = normalizeMinMax(minLength, maxLength);
+    minLength = normalizedLengths.min;
+    maxLength = normalizedLengths.max;
 
     const nLetters = Random.intBetween(minLength, maxLength);
 
@@ -175,11 +170,10 @@ export class Random {
   static sentence(minWords?: number, maxWords?: number) {
     minWords ??= 2;
     maxWords ??= 6;
-    if (maxWords < minWords) {
-      const tmpMinWords = minWords;
-      minWords = maxWords;
-      maxWords = tmpMinWords;
-    }
+
+    const normalizedWordLengths = normalizeMinMax(minWords, maxWords);
+    minWords = normalizedWordLengths.min;
+    maxWords = normalizedWordLengths.max;
 
     const nOfWords = Random.intBetween(minWords, maxWords);
 
@@ -194,11 +188,10 @@ export class Random {
   static paragraph(minSentence?: number, maxSentence?: number) {
     minSentence ??= 6;
     maxSentence ??= 15;
-    if (maxSentence < minSentence) {
-      const tmpMinSentence = minSentence;
-      minSentence = maxSentence;
-      maxSentence = tmpMinSentence;
-    }
+
+    const normalizedSentenceLengths = normalizeMinMax(minSentence, maxSentence);
+    minSentence = normalizedSentenceLengths.min;
+    maxSentence = normalizedSentenceLengths.max;
 
     const nOfSentences = Random.intBetween(minSentence, maxSentence);
     let result = "";
@@ -330,14 +323,9 @@ export class Random {
    * @param max - last date in range
    * @returns
    */
-  static date(min: Date, max: Date) {
-    if (max.getTime() < min.getTime()) {
-      const oldMin = min;
-      min = max;
-      max = oldMin;
-    }
-
-    const randomDate = Random.intBetween(min.getTime(), max.getTime());
+  static date(minDate: Date, maxDate: Date) {
+    const { min, max } = normalizeMinMax(minDate.getTime(), maxDate.getTime());
+    const randomDate = Random.intBetween(min, max);
     return new Date(randomDate);
   }
 
