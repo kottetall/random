@@ -1,4 +1,4 @@
-import { HttpCodes } from "../types/random.type";
+import { HttpCodes } from "../types/random.type.js";
 
 export const casing = {
   LOWER: "lower",

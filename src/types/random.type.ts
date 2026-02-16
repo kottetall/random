@@ -1,4 +1,8 @@
-import { booleanString, casing, httpCodes } from "../constants/random.constant";
+import {
+  booleanString,
+  casing,
+  httpCodes,
+} from "../constants/random.constant.js";
 
 export type Casing = (typeof casing)[keyof typeof casing];
 

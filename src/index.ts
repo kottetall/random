@@ -1,7 +1,7 @@
 import {
   alphabetLowercase,
   alphabetUppercase,
-} from "./constants/chars.constant";
+} from "./constants/chars.constant.js";
 import {
   booleanString,
   casing,
@@ -9,7 +9,7 @@ import {
   httpCodes,
   httpCodesDictionary,
   truthyValues,
-} from "./constants/random.constant";
+} from "./constants/random.constant.js";
 
 import {
   firstNameFemale,
@@ -17,15 +17,15 @@ import {
   firstNameNeutral,
   gender,
   lastname,
-} from "./constants/name.constant";
+} from "./constants/name.constant.js";
 
-import { millis, weekDays } from "./constants/time.constant";
+import { millis, weekDays } from "./constants/time.constant.js";
 
-import { normalizeMinMax } from "./utils/helper.util";
+import { normalizeMinMax } from "./utils/helper.util.js";
 
-import { Casing } from "./types/random.type";
-import { ObjectValues, ObjectValuesArray } from "./types/utils.type";
-import { Gender } from "./types/name.type";
+import { Casing } from "./types/random.type.js";
+import { ObjectValues, ObjectValuesArray } from "./types/utils.type.js";
+import { Gender } from "./types/name.type.js";
 
 export class Random {
   static intBetween(minInt: number, maxInt: number) {
