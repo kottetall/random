@@ -87,6 +87,46 @@ export class Random {
   }
 
   /**
+   * Returns a random subset of unique elements from an array.
+   *
+   * The method creates a shallow clone of the source array and randomly
+   * selects elements without replacement. This means the same element
+   * will never appear more than once in the returned result.
+   *
+   * If `nOfSamples` is not provided, a random number between 0 and
+   * `source.length - 1` will be used.
+   *
+   * @template T
+   * @param {T[]} source - The array to sample values from.
+   * @param {number} [nOfSamples] - The number of unique elements to return.
+   * @returns {T[]} An array containing randomly selected unique elements.
+   *
+   * @example
+   * Random.sampleFromArray([1, 2, 3, 4], 2);
+   * // Possible result: [3, 1]
+   *
+   * @example
+   * Random.sampleFromArray(["a", "b", "c"]);
+   * // Returns a random number of unique elements
+   */
+  static sampleFromArray<T>(source: T[], nOfSamples?: number): T[] {
+    nOfSamples ??= Random.intBetween(0, source.length - 1);
+
+    if (nOfSamples > source.length - 1) {
+      throw new Error(`nOfSamples needs to be smaller than the source length`);
+    }
+
+    const pool = structuredClone(source);
+    const sample: T[] = [];
+    for (let i = 0; i < nOfSamples; i++) {
+      const randomIndex = Random.intBetween(0, pool.length - 1);
+      const randomItem = pool.splice(randomIndex, 1)[0];
+      sample.push(randomItem);
+    }
+    return sample;
+  }
+
+  /**
    * Returns a value from the provided object
    * @param source
    * @returns
@@ -149,6 +189,26 @@ export class Random {
     return Random.fromArray(source);
   }
 
+  /**
+   * Generates a random lowercase word.
+   *
+   * The word length is randomly determined between `minLength` and `maxLength`.
+   * If no values are provided, the default length range is 2–6 characters.
+   * The method ensures that the minimum and maximum values are normalized
+   * before generating the word length.
+   *
+   * @param {number} minLength - The minimum length of the generated word.
+   * @param {number} maxLength - The maximum length of the generated word.
+   * @returns {string} A randomly generated lowercase word.
+   *
+   * @example
+   * Random.word();
+   * // Possible result: "kqz"
+   *
+   * @example
+   * Random.word(4, 8);
+   * // Possible result: "xjtrpa"
+   */
   static word(minLength?: number, maxLength?: number) {
     minLength ??= 2;
     maxLength ??= 6;
@@ -167,6 +227,29 @@ export class Random {
     return wordResult;
   }
 
+  /**
+   * Generates a random lowercase sentence.
+   *
+   * The number of words in the sentence is randomly determined between
+   * `minWords` and `maxWords`. If no values are provided, the default
+   * range is 2–6 words. The minimum and maximum values are normalized
+   * before generating the sentence length.
+   *
+   * Each word is generated using `Random.word()` and the final sentence
+   * is trimmed and ends with a period.
+   *
+   * @param {number} minWords - The minimum number of words in the sentence.
+   * @param {number} maxWords - The maximum number of words in the sentence.
+   * @returns {string} A randomly generated lowercase sentence ending with a period.
+   *
+   * @example
+   * Random.sentence();
+   * // Possible result: "lorem ipsum dolor."
+   *
+   * @example
+   * Random.sentence(3, 5);
+   * // Possible result: "xkf abcd pqrs."
+   */
   static sentence(minWords?: number, maxWords?: number) {
     minWords ??= 2;
     maxWords ??= 6;
@@ -185,6 +268,30 @@ export class Random {
     return `${sentenceBase.trim()}.`;
   }
 
+  /**
+   * Generates a random paragraph consisting of multiple sentences.
+   *
+   * The number of sentences in the paragraph is randomly determined
+   * between `minSentence` and `maxSentence`. If no values are provided,
+   * the default range is 6–15 sentences. The minimum and maximum values
+   * are normalized before generating the paragraph length.
+   *
+   * Each sentence is generated using `Random.sentence()`. The final
+   * paragraph is trimmed to remove leading whitespace.
+   *
+   * @param {number} [minSentence] - The minimum number of sentences in the paragraph.
+   * @param {number} [maxSentence] - The maximum number of sentences in the paragraph.
+   * @returns {string} A randomly generated paragraph.
+   *
+   * @example
+   * Random.paragraph();
+   * // Possible result:
+   * // "abc def ghi. jkl mno. pqr stu vwx. ..."
+   *
+   * @example
+   * Random.paragraph(3, 5);
+   * // Generates a paragraph with 3–5 sentences.
+   */
   static paragraph(minSentence?: number, maxSentence?: number) {
     minSentence ??= 6;
     maxSentence ??= 15;

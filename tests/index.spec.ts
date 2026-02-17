@@ -26,6 +26,21 @@ describe("Random", () => {
     });
   });
 
+  describe("sampleFromArray", () => {
+    test("Only returns expected values", () => {
+      expect(
+        Random.sampleFromArray(["a", "b", "c"], 2).sort(
+          (a: string, b: string) => (a > b ? 1 : -1),
+        ),
+      ).toBeOneOf([
+        ["a", "b"],
+        ["a", "c"],
+        ["b", "c"],
+      ]);
+      expect(Random.sampleFromArray(["a", "b", "c"], 2).length).toBe(2);
+    });
+  });
+
   describe("day", () => {
     test("Only returns expected values", () => {
       expect(Random.day()).toBeOneOf(Object.values(weekDays));
