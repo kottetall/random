@@ -6,6 +6,7 @@ import {
 } from "../src/constants/chars.constant";
 import { casing } from "../src/constants/random.constant";
 import { weekDays } from "../src/constants/time.constant";
+import { ColorOptions } from "../src/types/random.type";
 
 describe("Random", () => {
   describe("intBetween", () => {
@@ -123,6 +124,31 @@ describe("Random", () => {
       expect(Random.stringpattern("ggg", "ggg")).toBeOneOf(["ggg"]);
       expect(Random.stringpattern("9", "A")).toBeOneOf(["A", "9"]);
       expect(Random.stringpattern("8", "b")).toBeOneOf(["8", "9", "a", "b"]);
+    });
+  });
+
+  describe("color", () => {
+    test("Only returns expected values", () => {
+      const colorRegexFull = new RegExp(/^#[\da-f]+$/);
+      expect(Random.color()).toMatch(colorRegexFull);
+
+      const colorRegexMinMax = new RegExp(/^#d[a-f]d[a-f]d[a-f]$/);
+      const testOptions: ColorOptions = {
+        red: {
+          min: 218,
+          max: 223,
+        },
+        green: {
+          min: 218,
+          max: 223,
+        },
+        blue: {
+          min: 218,
+          max: 223,
+        },
+      };
+
+      expect(Random.color(testOptions)).toMatch(colorRegexMinMax);
     });
   });
 });
