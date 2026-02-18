@@ -76,6 +76,118 @@ export class Random {
   }
 
   /**
+   * Returns either `valueA` or `valueB` based on a given probability.
+   *
+   * The probability of returning `valueA` is controlled by `chanceOfA`,
+   * expressed as a percentage between 0 and 100. If no value is provided,
+   * it defaults to 50 (equal chance).
+   *
+   * @template T
+   * @template K
+   * @param {T} valueA - The first possible return value.
+   * @param {K} valueB - The second possible return value.
+   * @param {number} [chanceOfA=50] - The probability (0–100) of returning `valueA`.
+   * @returns {T | K} Either `valueA` or `valueB` depending on the probability.
+   *
+   * @throws {Error} If `chanceOfA` is less than 0 or greater than 100.
+   *
+   * @example
+   * Random.valueAOrValueB("yes", "no");
+   * // 50% chance of "yes"
+   *
+   * @example
+   * Random.valueAOrValueB(true, false, 80);
+   * // 80% chance of true
+   */
+  static valueAOrValueB<T, K>(valueA: T, valueB: K, chanceOfA?: number): T | K {
+    chanceOfA ??= 50;
+
+    if (chanceOfA < 0 || chanceOfA > 100) {
+      throw new Error(`chanceOfA needs to be between 0-100 - got ${chanceOfA}`);
+    }
+
+    chanceOfA = chanceOfA / 100;
+
+    return Math.random() < chanceOfA ? valueA : valueB;
+  }
+
+  /**
+   * Returns either the provided value or `null` based on a given probability.
+   *
+   * The probability of returning `null` is controlled by `percentOfNull`,
+   * expressed as a percentage between 0 and 100. If no value is provided,
+   * it defaults to 50 (equal chance of returning `value` or `null`).
+   *
+   * Internally uses `Random.valueAOrValueB`.
+   *
+   * @template T
+   * @param {T} value - The value that may be returned.
+   * @param {number} [percentOfNull=50] - The probability (0–100) of returning `null`.
+   * @returns {T | null} Either the provided value or `null`.
+   *
+   * @throws {Error} If `percentOfNull` is less than 0 or greater than 100.
+   *
+   * @example
+   * Random.valueOrNull("hello");
+   * // 50% chance of null
+   *
+   * @example
+   * Random.valueOrNull(42, 20);
+   * // 20% chance of null, 80% chance of 42
+   */
+  static valueOrNull<T>(value: T, percentOfNull?: number): T | null {
+    percentOfNull ??= 50;
+
+    if (percentOfNull < 0 || percentOfNull > 100) {
+      throw new Error(
+        `probabilityOfNull needs to be between 0-100 - got ${percentOfNull}`,
+      );
+    }
+
+    return Random.valueAOrValueB(null, value, percentOfNull);
+  }
+
+  /**
+   * Returns either the provided value or `undefined` based on a given probability.
+   *
+   * The probability of returning `undefined` is controlled by
+   * `percentOfUndefined`, expressed as a percentage between 0 and 100.
+   * If no value is provided, it defaults to 50 (equal chance of returning
+   * `value` or `undefined`).
+   *
+   * Internally uses `Random.valueAOrValueB`.
+   *
+   * @template T
+   * @param {T} value - The value that may be returned.
+   * @param {number} [percentOfUndefined=50] - The probability (0–100) of returning `undefined`.
+   * @returns {T | undefined} Either the provided value or `undefined`.
+   *
+   * @throws {Error} If `percentOfUndefined` is less than 0 or greater than 100.
+   *
+   * @example
+   * Random.valueOrUndefined("hello");
+   * // 50% chance of undefined
+   *
+   * @example
+   * Random.valueOrUndefined(42, 10);
+   * // 10% chance of undefined, 90% chance of 42
+   */
+  static valueOrUndefined<T>(
+    value: T,
+    percentOfUndefined?: number,
+  ): T | undefined {
+    percentOfUndefined ??= 50;
+
+    if (percentOfUndefined < 0 || percentOfUndefined > 100) {
+      throw new Error(
+        `percentOfUndefined needs to be between 0-100 - got ${percentOfUndefined}`,
+      );
+    }
+
+    return Random.valueAOrValueB(undefined, value, percentOfUndefined);
+  }
+
+  /**
    * Returns a value from the provided array
    * @param source
    * @returns

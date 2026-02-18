@@ -27,6 +27,49 @@ describe("Random", () => {
     });
   });
 
+  describe("valueAOrValueB", () => {
+    test("Only returns expected values", () => {
+      expect(Random.valueAOrValueB("x", 1, 0)).toBe(1);
+      expect(Random.valueAOrValueB("x", 1, 100)).toBe("x");
+      expect(Random.valueAOrValueB(1, "x", 0)).toBe("x");
+      expect(Random.valueAOrValueB(1, "x", 100)).toBe(1);
+      expect(Random.valueAOrValueB([1], { foo: 1 }, 0)).toStrictEqual({
+        foo: 1,
+      });
+      expect(Random.valueAOrValueB([1], { foo: 1 }, 100)).toStrictEqual([1]);
+    });
+  });
+
+  describe("valueOrNull", () => {
+    test("Only returns expected values", () => {
+      expect(Random.valueOrNull("x", 0)).toBe("x");
+      expect(Random.valueOrNull("x", 100)).toBe(null);
+      expect(Random.valueOrNull(1, 0)).toBe(1);
+      expect(Random.valueOrNull(1, 100)).toBe(null);
+      expect(Random.valueOrNull(false, 0)).toBe(false);
+      expect(Random.valueOrNull(false, 100)).toBe(null);
+      expect(Random.valueOrNull([1], 0)).toStrictEqual([1]);
+      expect(Random.valueOrNull([1], 100)).toBe(null);
+      expect(Random.valueOrNull({ foo: 1 }, 0)).toStrictEqual({ foo: 1 });
+      expect(Random.valueOrNull({ foo: 1 }, 100)).toBe(null);
+    });
+  });
+
+  describe("valueOrUndefined", () => {
+    test("Only returns expected values", () => {
+      expect(Random.valueOrUndefined("x", 0)).toBe("x");
+      expect(Random.valueOrUndefined("x", 100)).toBe(undefined);
+      expect(Random.valueOrUndefined(1, 0)).toBe(1);
+      expect(Random.valueOrUndefined(1, 100)).toBe(undefined);
+      expect(Random.valueOrUndefined(false, 0)).toBe(false);
+      expect(Random.valueOrUndefined(false, 100)).toBe(undefined);
+      expect(Random.valueOrUndefined([1], 0)).toStrictEqual([1]);
+      expect(Random.valueOrUndefined([1], 100)).toBe(undefined);
+      expect(Random.valueOrUndefined({ foo: 1 }, 0)).toStrictEqual({ foo: 1 });
+      expect(Random.valueOrUndefined({ foo: 1 }, 100)).toBe(undefined);
+    });
+  });
+
   describe("sampleFromArray", () => {
     test("Only returns expected values", () => {
       expect(
@@ -39,6 +82,13 @@ describe("Random", () => {
         ["b", "c"],
       ]);
       expect(Random.sampleFromArray(["a", "b", "c"], 2).length).toBe(2);
+    });
+
+    test("No mutation", () => {
+      const testPool = ["a", "b", "c"];
+      const testPoolCopy = structuredClone(testPool);
+      Random.sampleFromArray(["a", "b", "c"], 2);
+      expect(testPool).toStrictEqual(testPoolCopy);
     });
   });
 

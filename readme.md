@@ -1,19 +1,20 @@
 # Random
 
-A lightweight utility library for generating pseudo-random values in JavaScript based of `Math.random()`.
+A lightweight utility library for generating random values in JavaScript and TypeScript.
 
-This package was originally created for personal use in my own projects, but it is published as an open tool that anyone can use. It focuses on simple, practical helpers for working with randomness, such as picking random values from arrays or objects.
+This package was originally created for personal use in my own projects but is published as an open-source utility for anyone who needs simple, reusable random helpers.
 
-## Features
+It focuses on practical randomness utilities such as:
 
-- Get a random value from an array / object
-- Get a random name - first, last, full
-- Get a random letter
-- Get a random truthy/falsy value
-- And more...
-- Simple and minimal API
-- Zero dependencies
-- Designed for everyday use in JavaScript and Node.js projects
+- Picking random values
+- Generating random text
+- Creating random colors
+- Probabilistic value selection
+- Sampling without replacement
+
+Zero dependencies. Minimal API. Easy to use.
+
+---
 
 ## Installation
 
@@ -21,65 +22,159 @@ This package was originally created for personal use in my own projects, but it 
 npm install @kottetall/random
 ```
 
+---
+
 ## Usage
 
-### Random names
-
-```js
+```ts
 import { Random } from "@kottetall/random";
-
-console.log(Random.firstName()); // Jack
-console.log(Random.firstName("female")); // Sofia
-console.log(Random.lastName()); // White
-console.log(Random.fullName()); // Jack Hassan
 ```
 
-### Random string from stringpattern
+---
 
-Generates a random string using two strings as per-character boundaries.
+# API
 
-Instead of choosing one of the input strings, the method treats them as limits for each character position. For every index, it determines the range between the corresponding characters in the two strings and randomly selects a character within that range.
+---
 
-Each character in the resulting string is generated independently, which allows the method to produce combinations that do not exist in either of the original strings.
+## Arrays
 
-```js
-import { Random } from "@kottetall/random";
+### `sampleFromArray<T>(source: T[], nOfSamples?: number): T[]`
 
-const stringA = "a2";
-const stringB = "b1";
-const result = Random.stringpattern(stringA, stringB);
+Returns a random subset of unique elements from an array (without replacement).
 
-console.log(result); // "a1" | "b1" | "a2" | "b2"
+If `nOfSamples` is not provided, a random number between `0` and `source.length - 1` will be used.
+
+```ts
+Random.sampleFromArray([1, 2, 3, 4], 2);
+// Possible result: [3, 1]
+
+Random.sampleFromArray(["a", "b", "c"]);
+// Random number of unique elements
 ```
 
-### Random value from an array
+---
 
-```js
-import { Random } from "@kottetall/random";
+## Text Generation
 
-const items = ["apple", "banana", "orange"];
-const result = Random.fromArray(items);
+### `word(minLength?: number, maxLength?: number): string`
 
-console.log(result); // "banana"
+Generates a random lowercase nonsense word.
+
+Default length: 2–6 characters.
+
+```ts
+Random.word();
+// "kqz"
+
+Random.word(4, 8);
+// "xjtrpa"
 ```
 
-### Random value from an object
+---
 
-```js
-import { Random } from "@kottetall/random";
+### `sentence(minWords?: number, maxWords?: number): string`
 
-const obj = {
-  a: 1,
-  b: 2,
-  c: 3,
-};
+Generates a random lowercase nonsense sentence ending with a period.
 
-const result = Random.fromObject(obj);
+Default length: 2–6 words.
 
-console.log(result); // 3
+```ts
+Random.sentence();
+// "lorem ipsum dolor."
+
+Random.sentence(3, 5);
+// "xkf abcd pqrs."
 ```
 
-## Why this package?
+---
 
-Sometimes you just need small, reusable helpers instead of rewriting the same logic in every project.
-This package aims to provide clean and simple functions for common random-related tasks.
+### `paragraph(minSentence?: number, maxSentence?: number): string`
+
+Generates a paragraph consisting of multiple nonsense sentences.
+
+Default length: 6–15 sentences.
+
+```ts
+Random.paragraph();
+// "abc def ghi. jkl mno. pqr stu vwx."
+```
+
+---
+
+## Colors
+
+### `color(options?: ColorOptions): string`
+
+Generates a random HEX color string (`#RRGGBB`).
+
+By default, each RGB channel ranges from `0–255`, but you can customize the range per channel.
+
+```ts
+Random.color();
+// "#3fa9d2"
+
+Random.color({
+  red: { min: 200, max: 255 },
+  green: { min: 0, max: 50 },
+  blue: { min: 0, max: 50 },
+});
+// Generates a reddish color
+```
+
+---
+
+## Probabilistic Utilities
+
+### `valueAOrValueB<T, K>(valueA: T, valueB: K, chanceOfA?: number): T | K`
+
+Returns either `valueA` or `valueB` based on probability.
+
+Default: 50% chance for `valueA`.
+
+```ts
+Random.valueAOrValueB("yes", "no");
+// 50% chance of "yes"
+
+Random.valueAOrValueB(true, false, 80);
+// 80% chance of true
+```
+
+---
+
+### `valueOrNull<T>(value: T, percentOfNull?: number): T | null`
+
+Returns either the provided value or `null` based on probability.
+
+Default: 50% chance of `null`.
+
+```ts
+Random.valueOrNull("hello");
+// 50% chance of null
+
+Random.valueOrNull(42, 20);
+// 20% chance of null
+```
+
+---
+
+### `valueOrUndefined<T>(value: T, percentOfUndefined?: number): T | undefined`
+
+Returns either the provided value or `undefined` based on probability.
+
+Default: 50% chance of `undefined`.
+
+```ts
+Random.valueOrUndefined("hello");
+// 50% chance of undefined
+
+Random.valueOrUndefined(42, 10);
+// 10% chance of undefined
+```
+
+---
+
+# Why Random?
+
+Instead of rewriting small random helpers in every project, this package provides a clean and consistent API for common randomness-related tasks.
+
+It is intentionally lightweight and focused on simplicity.
