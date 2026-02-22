@@ -27,6 +27,48 @@ describe("Random", () => {
     });
   });
 
+  describe("boolean", () => {
+    test("Only returns expected values", () => {
+      expect(Random.boolean()).toBeOneOf([true, false]);
+      expect(Random.boolean()).toBeOneOf([true, false]);
+      expect(Random.boolean()).toBeOneOf([true, false]);
+    });
+  });
+
+  describe("booleanString", () => {
+    test("Only returns expected values", () => {
+      expect(Random.booleanString()).toBeOneOf(["true", "false"]);
+      expect(Random.booleanString()).toBeOneOf(["true", "false"]);
+      expect(Random.booleanString()).toBeOneOf(["true", "false"]);
+    });
+  });
+
+  describe("booleanInt", () => {
+    test("Only returns expected values", () => {
+      expect(Random.booleanInt()).toBeOneOf([0, 1]);
+      expect(Random.booleanInt()).toBeOneOf([0, 1]);
+      expect(Random.booleanInt()).toBeOneOf([0, 1]);
+    });
+  });
+
+  describe("falsy", () => {
+    test("Only returns expected values", () => {
+      expect(Random.falsy()).toBeFalsy();
+      expect(Random.falsy()).toBeFalsy();
+      expect(Random.falsy()).toBeFalsy();
+      expect(Random.falsy()).toBeFalsy();
+    });
+  });
+
+  describe("truthy", () => {
+    test("Only returns expected values", () => {
+      expect(Random.truthy()).toBeTruthy();
+      expect(Random.truthy()).toBeTruthy();
+      expect(Random.truthy()).toBeTruthy();
+      expect(Random.truthy()).toBeTruthy();
+    });
+  });
+
   describe("valueAOrValueB", () => {
     test("Only returns expected values", () => {
       expect(Random.valueAOrValueB("x", 1, 0)).toBe(1);
@@ -70,6 +112,14 @@ describe("Random", () => {
     });
   });
 
+  describe("fromArray", () => {
+    test("Only returns expected values", () => {
+      expect(Random.fromArray(["a", "b", "c"])).toBeOneOf(["a", "b", "c"]);
+      expect(Random.fromArray(["a", 1, "c"])).toBeOneOf(["a", 1, "c"]);
+      expect(Random.fromArray(["a", false, "c"])).toBeOneOf(["a", false, "c"]);
+    });
+  });
+
   describe("sampleFromArray", () => {
     test("Only returns expected values", () => {
       expect(
@@ -89,6 +139,42 @@ describe("Random", () => {
       const testPoolCopy = structuredClone(testPool);
       Random.sampleFromArray(["a", "b", "c"], 2);
       expect(testPool).toStrictEqual(testPoolCopy);
+    });
+  });
+
+  describe("fromObject", () => {
+    test("Only returns expected values", () => {
+      expect(Random.fromObject({ foo: 1, bar: "1" })).toBeOneOf(["1", 1]);
+      expect(Random.fromObject({ foo: false, bar: "1" })).toBeOneOf([
+        "1",
+        false,
+      ]);
+      expect(Random.fromObject({ foo: 1 })).toBe(1);
+    });
+  });
+
+  describe("letter", () => {
+    test("Only returns expected values", () => {
+      expect(Random.letter()).toMatch(/^[A-z]$/);
+      expect(Random.letter(casing.UPPER)).toMatch(/^[A-Z]$/);
+      expect(Random.letter(casing.LOWER)).toMatch(/^[a-z]$/);
+      expect(Random.letter(casing.LOWER, "b", "d")).toMatch(/^[b-d]$/);
+      expect(Random.letter(casing.LOWER, "b", "d")).toMatch(/^[b-d]$/);
+      expect(Random.letter(casing.LOWER, "b", "d")).toMatch(/^[b-d]$/);
+      expect(Random.letter(casing.LOWER, "b", "d")).toMatch(/^[b-d]$/);
+    });
+  });
+
+  describe("word", () => {
+    test("Only returns expected values", () => {
+      expect(Random.word()).toMatch(/^[A-z]{2,6}$/);
+      expect(Random.word()).toMatch(/^[A-z]{2,6}$/);
+      expect(Random.word()).toMatch(/^[A-z]{2,6}$/);
+      expect(Random.word()).toMatch(/^[A-z]{2,6}$/);
+      expect(Random.word(3, 4)).toMatch(/^[A-z]{3,4}$/);
+      expect(Random.word(3, 4)).toMatch(/^[A-z]{3,4}$/);
+      expect(Random.word(3, 4)).toMatch(/^[A-z]{3,4}$/);
+      expect(Random.word(3, 4)).toMatch(/^[A-z]{3,4}$/);
     });
   });
 
