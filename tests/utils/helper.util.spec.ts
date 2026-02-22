@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { normalizeMinMax } from "../../src/utils/helper.util";
+import { capitalizeWord, normalizeMinMax } from "../../src/utils/helper.util";
 
 describe("normalizeMinMax", () => {
   test("Only returns expected values", () => {
@@ -12,5 +12,16 @@ describe("normalizeMinMax", () => {
     expect(normalizeMinMax("a", "b")).toStrictEqual({ min: "a", max: "b" });
     expect(normalizeMinMax("b", "a")).toStrictEqual({ min: "a", max: "b" });
     expect(normalizeMinMax("ba", "ab")).toStrictEqual({ min: "ab", max: "ba" });
+  });
+});
+
+describe("capitalizeWord", () => {
+  test("Only returns expected values", () => {
+    expect(capitalizeWord("test")).toEqual("Test");
+    expect(capitalizeWord("Test")).toEqual("Test");
+    expect(capitalizeWord("tesT")).toEqual("TesT");
+    expect(capitalizeWord("fldkjsfjdsl dskljjdkasja")).toEqual(
+      "Fldkjsfjdsl dskljjdkasja",
+    );
   });
 });

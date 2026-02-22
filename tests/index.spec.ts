@@ -175,6 +175,19 @@ describe("Random", () => {
       expect(Random.word(3, 4)).toMatch(/^[A-z]{3,4}$/);
       expect(Random.word(3, 4)).toMatch(/^[A-z]{3,4}$/);
       expect(Random.word(3, 4)).toMatch(/^[A-z]{3,4}$/);
+      expect(Random.word(3, 4, true)).toMatch(/^[A-Z][a-z]{2,3}$/);
+    });
+  });
+
+  describe("sentence", () => {
+    test("Only returns expected values", () => {
+      expect(Random.sentence()).toMatch(/^[A-Z][\sa-z]+\.$/);
+      expect(Random.sentence()).toMatch(/^[A-Z][\sa-z]+\.$/);
+      expect(Random.sentence()).toMatch(/^[A-Z][\sa-z]+\.$/);
+      expect(Random.sentence()).toMatch(/^[A-Z][\sa-z]+\.$/);
+      expect(Random.sentence(2, 2)).toMatch(/^[A-Z][a-z]+\s[a-z]+\.$/);
+      expect(Random.sentence(2, 2)).toMatch(/^[A-Z][a-z]+\s[a-z]+\.$/);
+      expect(Random.sentence(3, 3)).toMatch(/^[A-Z][a-z]+\s[a-z]+\s[a-z]+\.$/);
     });
   });
 

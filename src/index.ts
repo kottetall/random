@@ -21,7 +21,7 @@ import {
 
 import { millis, weekDays } from "./constants/time.constant.js";
 
-import { normalizeMinMax } from "./utils/helper.util.js";
+import { capitalizeWord, normalizeMinMax } from "./utils/helper.util.js";
 
 import { Casing, ColorOptions } from "./types/random.type.js";
 import { ObjectValues, ObjectValuesArray } from "./types/utils.type.js";
@@ -321,7 +321,7 @@ export class Random {
    * Random.word(4, 8);
    * // Possible result: "xjtrpa"
    */
-  static word(minLength?: number, maxLength?: number) {
+  static word(minLength?: number, maxLength?: number, capitalize?: boolean) {
     minLength ??= 2;
     maxLength ??= 6;
 
@@ -336,7 +336,7 @@ export class Random {
       wordResult += Random.letter(casing.LOWER);
     }
 
-    return wordResult;
+    return capitalize ? capitalizeWord(wordResult) : wordResult;
   }
 
   /**
@@ -377,7 +377,7 @@ export class Random {
       sentenceBase = `${sentenceBase} ${Random.word()}`;
     }
 
-    return `${sentenceBase.trim()}.`;
+    return `${capitalizeWord(sentenceBase.trim())}.`;
   }
 
   /**

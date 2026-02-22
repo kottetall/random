@@ -19,3 +19,9 @@ export function normalizeMinMax<T extends string | number>(
     max: valueA > valueB ? valueA : valueB,
   };
 }
+
+export function capitalizeWord(word: string): string {
+  const letterArray = word.split("");
+  letterArray[0] = letterArray[0].toUpperCase();
+  return letterArray.join("");
+}
