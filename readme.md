@@ -1,5 +1,11 @@
 # Random
 
+![npm](https://img.shields.io/npm/v/@kottetall/random)
+![downloads](https://img.shields.io/npm/dm/@kottetall/random)
+![license](https://img.shields.io/npm/l/@kottetall/random)
+![typescript](https://img.shields.io/badge/types-TypeScript-blue)
+[![Socket Badge](https://badge.socket.dev/npm/package/@kottetall/random)](https://badge.socket.dev/npm/package/@kottetall/random)
+
 A lightweight utility library for generating random values in **JavaScript and TypeScript**.
 
 `@kottetall/Random` provides a collection of helpers for generating random:
