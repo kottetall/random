@@ -1,22 +1,27 @@
 # Random
 
-A lightweight utility library for generating random values in JavaScript and TypeScript.
+A lightweight utility library for generating random values in **JavaScript and TypeScript**.
 
-This package was originally created for personal use in my own projects but is published as an open-source utility for anyone who needs simple, reusable random helpers.
+`Random` provides a collection of helpers for generating:
 
-It focuses on practical randomness utilities such as:
+- numbers
+- booleans
+- text (words, sentences, paragraphs)
+- names
+- dates and times
+- HTTP statuses
+- colors
+- probabilistic values
+- array sampling
+- pattern-based strings
+- UUIDs
+- and more
 
-- Picking random values
-- Generating random text
-- Creating random colors
-- Probabilistic value selection
-- Sampling without replacement
-
-Zero dependencies. Minimal API. Easy to use.
+It is designed to be **simple, dependency-free, and useful for testing, prototyping, mock data, and utilities**.
 
 ---
 
-## Installation
+# Installation
 
 ```bash
 npm install @kottetall/random
@@ -24,7 +29,7 @@ npm install @kottetall/random
 
 ---
 
-## Usage
+# Usage
 
 ```ts
 import { Random } from "@kottetall/random";
@@ -32,149 +37,377 @@ import { Random } from "@kottetall/random";
 
 ---
 
-# API
+# Features
+
+- Random numbers and booleans
+- Array sampling utilities
+- Random text generation
+- Random names
+- Random colors
+- Random dates and times
+- Random HTTP status codes
+- Probability helpers
+- Useful for testing and mock data
+- Zero dependencies
+
+---
+
+# Examples
+
+## Random Numbers
+
+### Integer between values
+
+```ts
+Random.intBetween(1, 10);
+// 4
+```
+
+---
+
+## Booleans
+
+```ts
+Random.boolean();
+// true
+```
+
+### Boolean as string
+
+```ts
+Random.booleanString();
+// "true"
+
+Random.booleanString("upper");
+// "TRUE"
+```
+
+### Boolean as integer
+
+```ts
+Random.booleanInt();
+// 0 or 1
+```
+
+---
+
+## Probabilistic Values
+
+### Choose between two values
+
+```ts
+Random.valueAOrValueB("yes", "no", 70);
+// 70% chance of "yes"
+```
+
+---
+
+### Value or null
+
+```ts
+Random.valueOrNull("hello", 30);
+// 30% chance of null
+```
+
+---
+
+### Value or undefined
+
+```ts
+Random.valueOrUndefined(42, 20);
+// 20% chance of undefined
+```
 
 ---
 
 ## Arrays
 
-### `sampleFromArray<T>(source: T[], nOfSamples?: number): T[]`
+### Random value from array
 
-Returns a random subset of unique elements from an array (without replacement).
+```ts
+Random.fromArray(["apple", "banana", "orange"]);
+// "banana"
+```
 
-If `nOfSamples` is not provided, a random number between `0` and `source.length - 1` will be used.
+---
+
+### Random sample from array
 
 ```ts
 Random.sampleFromArray([1, 2, 3, 4], 2);
-// Possible result: [3, 1]
+// [3,1]
+```
 
-Random.sampleFromArray(["a", "b", "c"]);
-// Random number of unique elements
+Sampling is **without replacement**.
+
+---
+
+### Random value from object
+
+```ts
+Random.fromObject({
+  a: 1,
+  b: 2,
+  c: 3,
+});
+// 2
 ```
 
 ---
 
-## Text Generation
+# Text Generation
 
-### `word(minLength?: number, maxLength?: number): string`
+## Random Letter
 
-Generates a random lowercase nonsense word.
+```ts
+Random.letter();
+// "g"
 
-Default length: 2–6 characters.
+Random.letter("upper");
+// "Q"
+```
+
+---
+
+## Random Word
 
 ```ts
 Random.word();
-// "kqz"
+// "qex"
 
 Random.word(4, 8);
-// "xjtrpa"
+// "kdlwpa"
+```
+
+Capitalize the result:
+
+```ts
+Random.word(3, 6, true);
+// "Jexa"
 ```
 
 ---
 
-### `sentence(minWords?: number, maxWords?: number): string`
-
-Generates a random lowercase nonsense sentence ending with a period.
-
-Default length: 2–6 words.
+## Random Sentence
 
 ```ts
 Random.sentence();
-// "lorem ipsum dolor."
-
-Random.sentence(3, 5);
-// "xkf abcd pqrs."
+// "Lera domax pelu."
 ```
 
 ---
 
-### `paragraph(minSentence?: number, maxSentence?: number): string`
-
-Generates a paragraph consisting of multiple nonsense sentences.
-
-Default length: 6–15 sentences.
+## Random Paragraph
 
 ```ts
 Random.paragraph();
-// "abc def ghi. jkl mno. pqr stu vwx."
+// "Lorem ipsum dolo. Seta lumar pel."
 ```
 
 ---
 
-## Colors
+# Pattern Based Strings
 
-### `color(options?: ColorOptions): string`
+Generate a string based on **character bounds**.
 
-Generates a random HEX color string (`#RRGGBB`).
+```ts
+Random.stringpattern("a1", "c3");
+```
 
-By default, each RGB channel ranges from `0–255`, but you can customize the range per channel.
+Possible results:
+
+```
+a1
+b2
+c3
+a3
+```
+
+---
+
+# UUID
+
+```ts
+Random.uuid();
+// "f3c4e9e1-90a6-4f2a-9c44-6c7f5a4b5a1d"
+```
+
+Wrapper around:
+
+```
+crypto.randomUUID()
+```
+
+---
+
+# Names
+
+### First name
+
+```ts
+Random.firstName();
+// "Alex"
+```
+
+Specify gender:
+
+```ts
+Random.firstName("male");
+```
+
+---
+
+### Last name
+
+```ts
+Random.lastName();
+// "Andersson"
+```
+
+---
+
+### Full name
+
+```ts
+Random.fullName();
+// "Alex Johnson"
+```
+
+---
+
+# HTTP
+
+### Status Code
+
+```ts
+Random.httpStatusCode();
+// 404
+```
+
+### Status Text
+
+```ts
+Random.httpStatus();
+// "Not Found"
+```
+
+---
+
+# Time & Date
+
+### Random time
+
+```ts
+Random.time();
+// "14:23:51"
+```
+
+---
+
+### Random date within range
+
+```ts
+Random.date(new Date("2020-01-01"), new Date("2024-01-01"));
+```
+
+---
+
+### Random weekday
+
+```ts
+Random.day();
+// "Tuesday"
+```
+
+---
+
+# Colors
+
+### Random HEX color
 
 ```ts
 Random.color();
 // "#3fa9d2"
+```
 
+---
+
+### Limit RGB ranges
+
+```ts
 Random.color({
   red: { min: 200, max: 255 },
   green: { min: 0, max: 50 },
   blue: { min: 0, max: 50 },
 });
-// Generates a reddish color
+```
+
+Example output:
+
+```
+#e32a1f
 ```
 
 ---
 
-## Probabilistic Utilities
+# Async Utilities
 
-### `valueAOrValueB<T, K>(valueA: T, valueB: K, chanceOfA?: number): T | K`
-
-Returns either `valueA` or `valueB` based on probability.
-
-Default: 50% chance for `valueA`.
+### Random delay
 
 ```ts
-Random.valueAOrValueB("yes", "no");
-// 50% chance of "yes"
+await Random.delay(100, 1000);
+```
 
-Random.valueAOrValueB(true, false, 80);
-// 80% chance of true
+Optional return value:
+
+```ts
+await Random.delay(100, 500, "done");
 ```
 
 ---
 
-### `valueOrNull<T>(value: T, percentOfNull?: number): T | null`
+# Random Errors (Testing)
 
-Returns either the provided value or `null` based on probability.
-
-Default: 50% chance of `null`.
+Useful for **testing error handling**.
 
 ```ts
-Random.valueOrNull("hello");
-// 50% chance of null
-
-Random.valueOrNull(42, 20);
-// 20% chance of null
+Random.throwError(0.2);
 ```
+
+20% chance of throwing an error.
 
 ---
 
-### `valueOrUndefined<T>(value: T, percentOfUndefined?: number): T | undefined`
+# Truthy / Falsy values
 
-Returns either the provided value or `undefined` based on probability.
-
-Default: 50% chance of `undefined`.
+### Truthy
 
 ```ts
-Random.valueOrUndefined("hello");
-// 50% chance of undefined
-
-Random.valueOrUndefined(42, 10);
-// 10% chance of undefined
+Random.truthy();
 ```
+
+### Falsy
+
+```ts
+Random.falsy();
+```
+
+Useful for **testing edge cases**.
 
 ---
 
 # Why Random?
 
-Instead of rewriting small random helpers in every project, this package provides a clean and consistent API for common randomness-related tasks.
+Many libraries focus on generating **realistic fake data** (like Faker).
+`Random` focuses instead on **simple, composable random utilities**.
 
-It is intentionally lightweight and focused on simplicity.
+✔ Lightweight
+✔ Dependency-free
+✔ TypeScript friendly
+✔ Useful for testing and prototyping
+
+---
+
+# License
+
+MIT
