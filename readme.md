@@ -2,22 +2,22 @@
 
 A lightweight utility library for generating random values in **JavaScript and TypeScript**.
 
-`Random` provides a collection of helpers for generating:
+`@kottetall/Random` provides a collection of helpers for generating random:
 
 - numbers
 - booleans
 - text (words, sentences, paragraphs)
+- array values and samples
+- shuffled arrays
 - names
+- colors
 - dates and times
 - HTTP statuses
-- colors
 - probabilistic values
-- array sampling
-- pattern-based strings
 - UUIDs
-- and more
+- pattern-based strings
 
-It is designed to be **simple, dependency-free, and useful for testing, prototyping, mock data, and utilities**.
+The library is **dependency-free** and designed for **testing, prototyping, mock data generation, and general utility usage**.
 
 ---
 
@@ -40,39 +40,38 @@ import { Random } from "@kottetall/random";
 # Features
 
 - Random numbers and booleans
-- Array sampling utilities
+- Array utilities (pick, sample, shuffle)
 - Random text generation
 - Random names
 - Random colors
 - Random dates and times
 - Random HTTP status codes
 - Probability helpers
-- Useful for testing and mock data
+- Testing utilities
 - Zero dependencies
+- TypeScript support
 
 ---
 
-# Examples
-
-## Random Numbers
+# Numbers
 
 ### Integer between values
 
 ```ts
 Random.intBetween(1, 10);
-// 4
+// 7
 ```
 
 ---
 
-## Booleans
+# Booleans
 
 ```ts
 Random.boolean();
 // true
 ```
 
-### Boolean as string
+### Boolean string
 
 ```ts
 Random.booleanString();
@@ -82,7 +81,7 @@ Random.booleanString("upper");
 // "TRUE"
 ```
 
-### Boolean as integer
+### Boolean integer
 
 ```ts
 Random.booleanInt();
@@ -91,7 +90,7 @@ Random.booleanInt();
 
 ---
 
-## Probabilistic Values
+# Probability Utilities
 
 ### Choose between two values
 
@@ -120,7 +119,7 @@ Random.valueOrUndefined(42, 20);
 
 ---
 
-## Arrays
+# Arrays
 
 ### Random value from array
 
@@ -142,6 +141,30 @@ Sampling is **without replacement**.
 
 ---
 
+### Shuffle an array
+
+Returns a shuffled copy of the array without modifying the original.
+
+```ts
+Random.shuffleArray([1, 2, 3, 4]);
+// [3,1,4,2]
+```
+
+Example:
+
+```ts
+const original = [1, 2, 3, 4];
+const shuffled = Random.shuffleArray(original);
+
+console.log(original);
+// [1,2,3,4]
+
+console.log(shuffled);
+// random order
+```
+
+---
+
 ### Random value from object
 
 ```ts
@@ -157,7 +180,7 @@ Random.fromObject({
 
 # Text Generation
 
-## Random Letter
+### Random letter
 
 ```ts
 Random.letter();
@@ -169,7 +192,7 @@ Random.letter("upper");
 
 ---
 
-## Random Word
+### Random word
 
 ```ts
 Random.word();
@@ -188,7 +211,7 @@ Random.word(3, 6, true);
 
 ---
 
-## Random Sentence
+### Random sentence
 
 ```ts
 Random.sentence();
@@ -197,18 +220,18 @@ Random.sentence();
 
 ---
 
-## Random Paragraph
+### Random paragraph
 
 ```ts
 Random.paragraph();
-// "Lorem ipsum dolo. Seta lumar pel."
+// "Llrxhw rpe orj kyy ozcq. Zjut uuppa dha slq sbrq izjb. Gsvfhe vprdl. Cx su vewd th oemuui. Ccmyc ho zpl ybb sgdu qkfm. Lyqxfm jjqcud nh nrfwm zw. Xlhax nsvy lm. Nyuaj poj sythpm uxpgw ccqmr mypfd."
 ```
 
 ---
 
 # Pattern Based Strings
 
-Generate a string based on **character bounds**.
+Generate strings within character ranges.
 
 ```ts
 Random.stringpattern("a1", "c3");
@@ -225,28 +248,13 @@ a3
 
 ---
 
-# UUID
-
-```ts
-Random.uuid();
-// "f3c4e9e1-90a6-4f2a-9c44-6c7f5a4b5a1d"
-```
-
-Wrapper around:
-
-```
-crypto.randomUUID()
-```
-
----
-
 # Names
 
 ### First name
 
 ```ts
 Random.firstName();
-// "Alex"
+// "Jordan"
 ```
 
 Specify gender:
@@ -270,21 +278,23 @@ Random.lastName();
 
 ```ts
 Random.fullName();
-// "Alex Johnson"
+// "Ash Johnson"
 ```
 
 ---
 
 # HTTP
 
-### Status Code
+### Status code
 
 ```ts
 Random.httpStatusCode();
 // 404
 ```
 
-### Status Text
+---
+
+### Status text
 
 ```ts
 Random.httpStatus();
@@ -293,7 +303,7 @@ Random.httpStatus();
 
 ---
 
-# Time & Date
+# Date & Time
 
 ### Random time
 
@@ -350,6 +360,21 @@ Example output:
 
 ---
 
+# UUID
+
+```ts
+Random.uuid();
+// "f3c4e9e1-90a6-4f2a-9c44-6c7f5a4b5a1d"
+```
+
+Wrapper around:
+
+```
+crypto.randomUUID()
+```
+
+---
+
 # Async Utilities
 
 ### Random delay
@@ -366,9 +391,11 @@ await Random.delay(100, 500, "done");
 
 ---
 
-# Random Errors (Testing)
+# Testing Utilities
 
-Useful for **testing error handling**.
+### Random errors
+
+Useful when testing error handling.
 
 ```ts
 Random.throwError(0.2);
@@ -378,28 +405,29 @@ Random.throwError(0.2);
 
 ---
 
-# Truthy / Falsy values
+# Truthy / Falsy Values
 
 ### Truthy
 
 ```ts
 Random.truthy();
+// true | {} | [] | 42 | "0" | "false" | new Date() | -42 | 12n | 3.14 | -3.14 | Infinity | -Infinity
 ```
+
+---
 
 ### Falsy
 
 ```ts
 Random.falsy();
+// null | undefined | false | NaN | 0 | -0 | 0n | ""
 ```
 
-Useful for **testing edge cases**.
+Useful for testing edge cases.
 
 ---
 
 # Why Random?
-
-Many libraries focus on generating **realistic fake data** (like Faker).
-`Random` focuses instead on **simple, composable random utilities**.
 
 ✔ Lightweight
 ✔ Dependency-free

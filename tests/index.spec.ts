@@ -32,6 +32,8 @@ describe("Random", () => {
       expect(Random.boolean()).toBeOneOf([true, false]);
       expect(Random.boolean()).toBeOneOf([true, false]);
       expect(Random.boolean()).toBeOneOf([true, false]);
+      expect(Random.boolean(100)).toBe(true);
+      expect(Random.boolean(0)).toBe(false);
     });
   });
 
@@ -40,6 +42,12 @@ describe("Random", () => {
       expect(Random.booleanString()).toBeOneOf(["true", "false"]);
       expect(Random.booleanString()).toBeOneOf(["true", "false"]);
       expect(Random.booleanString()).toBeOneOf(["true", "false"]);
+      expect(Random.booleanString(undefined, 100)).toBe("true");
+      expect(Random.booleanString(undefined, 0)).toBe("false");
+      expect(Random.booleanString("lower", 100)).toBe("true");
+      expect(Random.booleanString("lower", 0)).toBe("false");
+      expect(Random.booleanString("upper", 100)).toBe("TRUE");
+      expect(Random.booleanString("upper", 0)).toBe("FALSE");
     });
   });
 
@@ -117,6 +125,22 @@ describe("Random", () => {
       expect(Random.fromArray(["a", "b", "c"])).toBeOneOf(["a", "b", "c"]);
       expect(Random.fromArray(["a", 1, "c"])).toBeOneOf(["a", 1, "c"]);
       expect(Random.fromArray(["a", false, "c"])).toBeOneOf(["a", false, "c"]);
+    });
+  });
+
+  describe("shuffleArray", () => {
+    test("Only returns expected values", () => {
+      const testArray = ["a", "b", "c"];
+      const resultToTest = Random.shuffleArray(testArray);
+      for (const value of testArray) {
+        expect(resultToTest).toContain(value);
+      }
+
+      const testArrayMixed = ["a", false, "c", 1];
+      const resultToTestMixed = Random.shuffleArray(testArrayMixed);
+      for (const value of testArrayMixed) {
+        expect(resultToTestMixed).toContain(value);
+      }
     });
   });
 

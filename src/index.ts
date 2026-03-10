@@ -36,8 +36,9 @@ export class Random {
     return Math.floor(Math.random() * (maxFloored - minCeiled + 1) + minCeiled);
   }
 
-  static boolean() {
-    return Math.random() < 0.5;
+  static boolean(chanceOfTrue?: number) {
+    chanceOfTrue ??= 50;
+    return Random.valueAOrValueB(true, false, chanceOfTrue);
   }
 
   /**
@@ -45,9 +46,12 @@ export class Random {
    * @param booleanCasing
    * @returns
    */
-  static booleanString(booleanCasing?: Casing) {
+  static booleanString(booleanCasing?: Casing, chanceOfTrue?: number) {
     if (!booleanCasing) booleanCasing = casing.LOWER;
-    const result = Random.boolean() ? booleanString.TRUE : booleanString.FALSE;
+    chanceOfTrue ??= 50;
+    const result = Random.boolean(chanceOfTrue)
+      ? booleanString.TRUE
+      : booleanString.FALSE;
     return booleanCasing === casing.LOWER ? result : result.toUpperCase();
   }
 
@@ -108,7 +112,7 @@ export class Random {
 
     chanceOfA = chanceOfA / 100;
 
-    return Math.random() < chanceOfA ? valueA : valueB;
+    return Math.random() <= chanceOfA ? valueA : valueB;
   }
 
   /**
@@ -196,6 +200,48 @@ export class Random {
     const maxIndex = source.length - 1;
     const randomIndex = Random.intBetween(0, maxIndex);
     return source[randomIndex];
+  }
+
+  /**
+   * Returns a shuffled copy of the provided array.
+   *
+   * The original array is never modified. Instead, the method creates a copy
+   * of the source array and randomly reorders its elements before returning it.
+   *
+   * The shuffle process randomly moves elements to new positions within the
+   * array, resulting in a randomized ordering of the original values.
+   *
+   * @template T
+   * @param {T[]} source - The array to shuffle.
+   * @returns {T[]} A new array containing the same elements as `source`,
+   * but in a random order.
+   *
+   * @example
+   * Random.shuffleArray([1, 2, 3, 4]);
+   * // Possible result: [3, 1, 4, 2]
+   *
+   * @example
+   * const letters = ["a", "b", "c"];
+   * const shuffled = Random.shuffleArray(letters);
+   *
+   * console.log(letters);
+   * // ["a", "b", "c"] (unchanged)
+   *
+   * console.log(shuffled);
+   * // ["c", "a", "b"]
+   */
+  static shuffleArray<T>(source: T[]): T[] {
+    const result = structuredClone ? structuredClone(source) : [...source];
+    const sourceLength = source.length;
+    for (let i = 0; i < sourceLength; i++) {
+      const moveFrom = Random.intBetween(0, sourceLength - 1);
+      const moveTo = Random.intBetween(0, sourceLength - 1);
+      if (moveTo === moveFrom) continue;
+
+      const [itemToMove] = result.splice(moveFrom, 1);
+      result.splice(moveTo, 0, itemToMove);
+    }
+    return structuredClone ? structuredClone(result) : [...result];
   }
 
   /**
