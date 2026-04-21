@@ -4,6 +4,7 @@
       "target": "ES2024",
       "module": "NodeNext",
       "moduleResolution": "NodeNext",
+      "rootDir": "./src/",
       "outDir": "./lib/",
       "declarationDir": "./lib/",
       "strict": true,
