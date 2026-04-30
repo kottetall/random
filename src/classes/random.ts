@@ -35,6 +35,7 @@ import { randomSentence } from "./../functions/randomSentence.js";
 import { randomParagraph } from "./../functions/randomParagraph.js";
 import { randomStringpattern } from "../functions/randomStringpattern.js";
 import { randomColor } from "./../functions/randomColor.js";
+import { randomItemList } from "../functions/randomItemList.js";
 
 export class Random {
   static intBetween(minInt: number, maxInt: number) {
@@ -229,6 +230,42 @@ export class Random {
    */
   static sampleFromArray<T>(source: T[], nOfSamples?: number): T[] {
     return randomSampleFromArray(source, nOfSamples);
+  }
+
+  /**
+   * Generates an array of random length filled with values produced by a callback function.
+   *
+   * The number of items is randomly chosen between `minItems` and `maxItems`
+   * (inclusive). The provided callback `cb` is then executed once per item
+   * and each returned value is added to the resulting array.
+   *
+   * This is useful for generating random lists of mock data such as names,
+   * numbers, objects, or any other values.
+   *
+   * @template T
+   * @param {T} cb - A callback function that generates a value for each list item.
+   * @param {number} minItems - The minimum number of items to generate.
+   * @param {number} maxItems - The maximum number of items to generate.
+   * @returns {ReturnType<T>[]} An array containing values returned by the callback.
+   *
+   * @example
+   * Random.itemList(() => Random.intBetween(1, 10), 3, 6);
+   * // Possible result: [4, 9, 2, 7]
+   *
+   * @example
+   * Random.itemList(() => Random.word(), 2, 4);
+   * // Possible result: ["kex", "vudo", "pax"]
+   *
+   * @example
+   * Random.itemList(() => ({ id: Random.uuid() }), 1, 3);
+   * // Possible result: [{ id: "..." }, { id: "..." }]
+   */
+  static itemList<T extends (...args: any) => any>(
+    cb: T,
+    minItems: number,
+    maxItems: number,
+  ): ReturnType<T>[] {
+    return randomItemList(cb, minItems, maxItems);
   }
 
   /**
