@@ -17,3 +17,4 @@ export { randomParagraph } from "././functions/randomParagraph.js";
 export { randomStringpattern } from "./functions/randomStringpattern.js";
 export { randomColor } from "././functions/randomColor.js";
 export { randomItemList } from "././functions/randomItemList.js";
+export { randomString } from "././functions/randomString.js";

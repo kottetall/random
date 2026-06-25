@@ -36,6 +36,7 @@ import { randomParagraph } from "./../functions/randomParagraph.js";
 import { randomStringpattern } from "../functions/randomStringpattern.js";
 import { randomColor } from "./../functions/randomColor.js";
 import { randomItemList } from "../functions/randomItemList.js";
+import { randomString } from "../../src/functions/randomString.js";
 
 export class Random {
   static intBetween(minInt: number, maxInt: number) {
@@ -511,6 +512,10 @@ export class Random {
 
   static day() {
     return Random.fromObject(weekDays);
+  }
+
+  static string(min: number, max: number) {
+    return randomString({ minLength: min, maxLength: max });
   }
 
   /**
