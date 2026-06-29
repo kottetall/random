@@ -221,6 +221,13 @@ describe("Random", () => {
     });
   });
 
+  describe("string", () => {
+    test("Only returns expected values", () => {
+      expect(typeof Random.string(1, 1)).toBe("string");
+      expect(Random.string(1, 1)).toMatch(/^[A-z\d]+$/);
+    });
+  });
+
   describe("letter", () => {
     test("Only returns expected values", () => {
       expect(Random.letter()).toBeOneOf([

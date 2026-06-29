@@ -36,7 +36,7 @@ import { randomParagraph } from "./../functions/randomParagraph.js";
 import { randomStringpattern } from "../functions/randomStringpattern.js";
 import { randomColor } from "./../functions/randomColor.js";
 import { randomItemList } from "../functions/randomItemList.js";
-import { randomString } from "../../src/functions/randomString.js";
+import { randomString } from "../functions/randomString.js";
 
 export class Random {
   static intBetween(minInt: number, maxInt: number) {
