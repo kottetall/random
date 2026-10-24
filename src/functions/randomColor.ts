@@ -1,5 +1,6 @@
 import { randomIntBetween } from "./randomIntBetween.js";
 import { ColorOptions } from "./../types/random.type.js";
+import { paddNumberString } from "../utils/helper.util.js";
 
 /**
  * Generates a random HEX color string.
@@ -43,8 +44,9 @@ export function randomColor(options?: ColorOptions): string {
     options?.blue.max ?? 255,
   );
 
-  const red = redNumber.toString(16);
-  const green = greenNumber.toString(16);
-  const blue = blueNumber.toString(16);
+  const red = paddNumberString(redNumber.toString(16));
+  const green = paddNumberString(greenNumber.toString(16));
+  const blue = paddNumberString(blueNumber.toString(16));
+
   return `#${red}${green}${blue}`;
 }

@@ -25,3 +25,13 @@ export function capitalizeWord(word: string): string {
   letterArray[0] = letterArray[0].toUpperCase();
   return letterArray.join("");
 }
+
+export function paddNumberString(input: string, minLength = 2): string {
+  if (input.length >= minLength) return input;
+  const neededPadding = minLength - input.length;
+  let paddedstring = input;
+  for (let i = 0; i < neededPadding; i++) {
+    paddedstring = `0${paddedstring}`;
+  }
+  return paddedstring;
+}
