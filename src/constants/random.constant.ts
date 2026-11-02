@@ -1,5 +1,23 @@
 import { HttpCodes } from "../types/random.type.js";
 
+export const objectType = {
+  STRING: "string",
+  NUMBER: "number",
+  OBJECT: "object",
+  ARRAY: "array",
+  BOOLEAN: "boolean",
+  NULL: "null",
+} as const;
+
+export const jsonType = {
+  STRING: objectType.STRING,
+  NUMBER: objectType.NUMBER,
+  OBJECT: objectType.OBJECT,
+  ARRAY: objectType.ARRAY,
+  BOOLEAN: objectType.BOOLEAN,
+  NULL: objectType.NULL,
+} as const;
+
 export const casing = {
   LOWER: "lower",
   UPPER: "upper",

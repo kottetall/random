@@ -2,7 +2,12 @@ import {
   booleanString,
   casing,
   httpCodes,
+  objectType,
+  jsonType,
 } from "../constants/random.constant.js";
+
+export type ObjectType = (typeof objectType)[keyof typeof objectType];
+export type JsonType = (typeof jsonType)[keyof typeof jsonType];
 
 export type Casing = (typeof casing)[keyof typeof casing];
 
@@ -23,4 +28,9 @@ export type ColorOptions = {
     min: number;
     max: number;
   };
+};
+
+export type ObjectOptions = {
+  maxDepth?: number;
+  schema?: { key: string; value: ObjectType }[];
 };
